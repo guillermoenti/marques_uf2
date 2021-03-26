@@ -1,9 +1,15 @@
 import React, { Component } from 'react'; 
-
+			
 class Header extends Component {
   render() {
     return (
-<h1>Cabecera</h1>
+		<div>
+			<h1>Cabecera</h1>
+			<ul>
+				<li>Opcion</li>
+				<li>Otra opcion</li>
+			</ul>
+		</div>
     );
   }
 }
