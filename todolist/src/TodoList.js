@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ListItem from './ListItem';
-import './TodoList.css';
+import ItemList from "./ItemList"
 import { Button, Icon } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -8,6 +7,9 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import { green, purple } from '@material-ui/core/colors';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+
+import "./TodoList.css"
+
 
 class TodoList extends Component{
     
@@ -19,13 +21,16 @@ class TodoList extends Component{
         };
         this.lastID = 0;
         
+        // Para que las funciones esten vinculadas al objeto
+        // y que puedan accdeder a las variables,funciones..etc
         this.addItem = this.addItem.bind(this);
         this.removeItem = this.removeItem.bind(this);
         this.clearAll = this.clearAll.bind(this);
 
-        fetch("//192.168.1.129:8080/get_items").then((response)=>{
+        fetch("//192.168.1.42:8080/get_items").then((response)=>{
             
             response.json().then((data) =>{
+
                data.forEach(item =>{
                    console.log(item);
                    this.state.itemsState.push({
@@ -53,7 +58,9 @@ class TodoList extends Component{
              if(this.state.itemsState[i].id === id_item){
 
                 let itemToDelete = this.state.itemsState[i];
-                fetch("//192.168.1.129:8080/remove",{
+                
+                 //FETCH
+                fetch("//192.168.1.42:8080/remove",{
                 method: "POST",
                 headers:{
                     'Content-type' : "text/json"
@@ -69,10 +76,27 @@ class TodoList extends Component{
          this.setState({
              itemsState:this.state.itemsState
          });
-		 
+         
+            
+            
+            //this.lastID = data[data.length - 1].id;
+    
+
     }
-	
+    clearAll(){
+        if(this.state.itemsState.length > 0){
+            this.state.itemsState = [];
+        }
+        this.setState({
+            itemsState:this.state.itemsState
+        });
+        fetch("//192.168.1.42:8080/remove_all");
+        
+        this.lastID = 0;
+    
+    }
     addItem(e){
+        //Hace que no se envie el formulario
         e.preventDefault();
         
         this.lastID++;
@@ -84,8 +108,9 @@ class TodoList extends Component{
                 itemsState: this.state.itemsState
             });
             
+            //Hacer fetch con todos los datos
             console.log(textValue);
-            fetch("//192.168.1.129:8080/submit",{
+            fetch("//192.168.1.42:8080/submit",{
                 method: "POST",
                 headers:{
                     'Content-type' : "text/json"
@@ -95,6 +120,7 @@ class TodoList extends Component{
                     item_name:textValue
                 })
             });
+            //Borramos el contenido del texto
             document.getElementById("text").value ="";
             document.getElementById("text").focus();
         }
@@ -121,6 +147,10 @@ class TodoList extends Component{
                     <ul id="doList">
                         {lista}
                     </ul>
+                    <div className="countTasks">
+                        <p>You have {this.state.itemsState.length} pending tasks</p>
+                        <p><Button color="secondary" type="Button"  variant="contained"  startIcon={<DeleteIcon />} onClick={this.clearAll}>Clear All</Button></p>
+                    </div>
                 </div>
             </div>
         )         
