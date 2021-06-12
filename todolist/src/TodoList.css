@@ -1,5 +1,6 @@
 body{
-    background-color: rgb(195, 255, 235);
+    background-color: rgb(208, 255, 195);
+		background-image: url(background.jpg); 
 }
 h1{
     display: flex;
@@ -10,22 +11,30 @@ h1{
     font-size: 40px;
 
 }
+
+#root{
+	display:flex;
+}
+
 .list{
     
     background-color: white;
     border-radius: 8px;
     max-width: 35%;
     margin-top: 20px;
-    margin-left: auto;
     margin-right: auto;
-    font-family: Roboto,Arial;
-    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.342);
+    margin-left: auto;
+    font-family: Roboto, Arial;
+    box-shadow: 1px 1px 15px rgba(156, 39, 176, 0.7);
 
 }
 .listContent form{
     display: flex;
     align-items:stretch; 
-    justify-content:center; 
+    justify-content:center;
+		padding-left:80px;
+		margin-bottom:20px;
+		border-bottom:2px dotted rgba(156, 39, 176, 0.3);
 }
 
 
@@ -40,27 +49,15 @@ h1{
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding-left: 20px;
     margin-bottom: 20px;
-
     border-radius: 4px;
-
-    background-color: rgba(128, 128, 128, 0.192);
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.308);
-
     font-weight: bold;
+
+		border: 1px solid rgba(0, 0, 0, 0.2);
 }
 #doList li:hover{
     background-color: rgba(128, 128, 128, 0.5);
 
 }
-.countTasks{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-left: 10px;
-    margin-right: 10px;
-    font-weight: bold;
-    font-size: 19px;
-}
+

@@ -58,11 +58,7 @@ http.createServer( (req, res) => {
 			res.write(JSON.stringify(data));
 			res.end();
 		});
-	}else if(req.url == "/remove_all"){
-        todolist_db.collection("items").drop();
-        res.end();
-    }
-    else if(req.url == "/remove"){
+	}else if(req.url == "/remove"){
         console.log("remove a item");
 		let body = [];
 		req.on("data", chunk => {

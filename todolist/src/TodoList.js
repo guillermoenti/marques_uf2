@@ -21,18 +21,14 @@ class TodoList extends Component{
         };
         this.lastID = 0;
         
-        // Para que las funciones esten vinculadas al objeto
-        // y que puedan accdeder a las variables,funciones..etc
         this.addItem = this.addItem.bind(this);
         this.removeItem = this.removeItem.bind(this);
-        this.clearAll = this.clearAll.bind(this);
 
-        fetch("//192.168.1.42:8080/get_items").then((response)=>{
+        fetch("//192.168.1.138:8080/get_items").then((response)=>{
             
             response.json().then((data) =>{
 
                data.forEach(item =>{
-                   console.log(item);
                    this.state.itemsState.push({
                        id: item.id,
                        item_name: item.item_name
@@ -50,17 +46,13 @@ class TodoList extends Component{
     
     removeItem(id_item){
         
-
-        console.log("Eliminado: " + id_item);
-
          for(let i = 0; i< this.state.itemsState.length; i++){
 
              if(this.state.itemsState[i].id === id_item){
 
                 let itemToDelete = this.state.itemsState[i];
                 
-                 //FETCH
-                fetch("//192.168.1.42:8080/remove",{
+                fetch("//192.168.1.138:8080/remove",{
                 method: "POST",
                 headers:{
                     'Content-type' : "text/json"
@@ -83,20 +75,8 @@ class TodoList extends Component{
     
 
     }
-    clearAll(){
-        if(this.state.itemsState.length > 0){
-            this.state.itemsState = [];
-        }
-        this.setState({
-            itemsState:this.state.itemsState
-        });
-        fetch("//192.168.1.42:8080/remove_all");
-        
-        this.lastID = 0;
     
-    }
     addItem(e){
-        //Hace que no se envie el formulario
         e.preventDefault();
         
         this.lastID++;
@@ -108,9 +88,7 @@ class TodoList extends Component{
                 itemsState: this.state.itemsState
             });
             
-            //Hacer fetch con todos los datos
-            console.log(textValue);
-            fetch("//192.168.1.42:8080/submit",{
+            fetch("//192.168.1.138:8080/submit",{
                 method: "POST",
                 headers:{
                     'Content-type' : "text/json"
@@ -120,7 +98,6 @@ class TodoList extends Component{
                     item_name:textValue
                 })
             });
-            //Borramos el contenido del texto
             document.getElementById("text").value ="";
             document.getElementById("text").focus();
         }
@@ -138,7 +115,7 @@ class TodoList extends Component{
 
         return(
             <div className="list">
-                <h1>TODO LIST</h1>
+                <h1>Todo List</h1>
                 <div className="listContent">
                     <form onSubmit={this.addItem}>
                         <p><TextField label="Add your new todo" size="medium" id="standard-full-width" autoComplete="off" margin="normal" variant="outlined" type="text" id="text"/></p>
@@ -147,10 +124,6 @@ class TodoList extends Component{
                     <ul id="doList">
                         {lista}
                     </ul>
-                    <div className="countTasks">
-                        <p>You have {this.state.itemsState.length} pending tasks</p>
-                        <p><Button color="secondary" type="Button"  variant="contained"  startIcon={<DeleteIcon />} onClick={this.clearAll}>Clear All</Button></p>
-                    </div>
                 </div>
             </div>
         )         
